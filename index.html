@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>消防列管快速檢核表</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6F4EE;
+    --paper:#FFFFFF;
+    --ink:#1C2B3A;
+    --ink-soft:#4B5A68;
+    --line:#D9D3C4;
+    --navy:#153350;
+    --navy-deep:#0D2138;
+    --brick:#B4471E;
+    --brick-bg:#FBEBE3;
+    --green:#2B6B47;
+    --green-bg:#E7F1E9;
+    --amber:#8A5A0B;
+    --amber-bg:#FBF0DD;
+    --stamp:#8F1F1F;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    font-family:"Noto Sans TC", sans-serif;
+    color:var(--ink);
+    padding:32px 16px 64px;
+  }
+  .wrap{max-width:960px;margin:0 auto;}
+  .masthead{
+    border:1px solid var(--navy);
+    border-radius:var(--radius);
+    background:var(--navy);
+    color:#F3EFE4;
+    padding:28px 32px;
+    position:relative;
+    overflow:hidden;
+  }
+  .masthead .eyebrow{
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:#B9C6D3;
+    margin:0 0 8px;
+  }
+  .masthead h1{
+    font-family:"Noto Serif TC", serif;
+    font-weight:700;
+    font-size:26px;
+    margin:0 0 10px;
+    line-height:1.4;
+  }
+  .masthead p{
+    margin:0;
+    font-size:13.5px;
+    color:#CBD6DE;
+    line-height:1.7;
+    max-width:720px;
+  }
+  .masthead .src{
+    margin-top:12px;
+    display:inline-block;
+    font-size:11.5px;
+    background:rgba(255,255,255,0.1);
+    border:1px solid rgba(255,255,255,0.25);
+    border-radius:20px;
+    padding:4px 12px;
+    color:#E7DFC9;
+    text-decoration:none;
+    cursor:pointer;
+    transition:background .15s ease, border-color .15s ease;
+  }
+  .masthead .src:hover{
+    background:rgba(255,255,255,0.2);
+    border-color:rgba(255,255,255,0.45);
+    text-decoration:underline;
+  }
+  .layout{
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:20px;
+    margin-top:20px;
+    align-items:start;
+  }
+  @media (max-width:820px){ .layout{grid-template-columns:1fr;} }
+
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:22px 24px;
+    margin-bottom:16px;
+  }
+  .step-label{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:14px;
+  }
+  .step-num{
+    width:26px;height:26px;
+    border-radius:50%;
+    background:var(--navy);
+    color:#fff;
+    font-size:13px;
+    font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+    flex:none;
+  }
+  .step-title{
+    font-family:"Noto Serif TC", serif;
+    font-weight:700;
+    font-size:16px;
+  }
+  label.field-label{
+    display:block;
+    font-size:13px;
+    color:var(--ink-soft);
+    margin:14px 0 6px;
+    font-weight:500;
+  }
+  label.field-label:first-of-type{margin-top:0;}
+  select, input[type="number"], input[type="search"], input[type="text"]{
+    width:100%;
+    padding:10px 12px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    font-size:14px;
+    font-family:"Noto Sans TC", sans-serif;
+    background:#FCFBF8;
+    color:var(--ink);
+  }
+  select:focus, input:focus, textarea:focus{
+    outline:none;
+    border-color:var(--navy);
+    box-shadow:0 0 0 3px rgba(21,51,80,0.12);
+  }
+  .hint{font-size:12px;color:#8B8578;margin-top:5px;line-height:1.5;}
+  .check-row{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:10px 0;
+    border-top:1px solid #F0EDE3;
+  }
+  .check-row:first-of-type{border-top:none;}
+  .check-row input[type="checkbox"],
+  .check-row input[type="radio"]{
+    margin-top:3px;
+    width:16px;height:16px;
+    flex:none;
+    accent-color:var(--navy);
+  }
+  .check-row .ctext{font-size:13.5px;line-height:1.6;color:var(--ink);}
+  .check-row .csub{font-size:11.5px;color:#96907F;display:block;margin-top:2px;}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media (max-width:480px){.grid2{grid-template-columns:1fr;}}
+
+  .btn-primary{
+    width:100%;
+    margin-top:18px;
+    padding:13px 18px;
+    border:none;
+    border-radius:8px;
+    background:var(--brick);
+    color:#FFF3EC;
+    font-size:15px;
+    font-weight:700;
+    font-family:"Noto Sans TC", sans-serif;
+    cursor:pointer;
+    letter-spacing:.02em;
+  }
+  .btn-primary:hover{background:#9A3B18;}
+  .btn-primary:active{transform:scale(0.99);}
+
+  .results{
+    position:sticky;
+    top:16px;
+  }
+  .result-empty{
+    border:1px dashed var(--line);
+    border-radius:var(--radius);
+    padding:40px 22px;
+    text-align:center;
+    color:#A29C8C;
+    font-size:13.5px;
+    line-height:1.8;
+    background:#FBFAF6;
+  }
+  .result-empty svg{margin-bottom:10px;opacity:.5;}
+
+  .result-stamp{
+    display:inline-block;
+    border:2px solid var(--stamp);
+    color:var(--stamp);
+    font-family:"Noto Serif TC", serif;
+    font-weight:700;
+    font-size:13px;
+    padding:4px 12px;
+    border-radius:5px;
+    transform:rotate(-2deg);
+    letter-spacing:.06em;
+    margin-bottom:14px;
+  }
+  .badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:12.5px;
+    font-weight:700;
+    padding:5px 11px;
+    border-radius:20px;
+  }
+  .badge.yes{background:var(--green-bg);color:var(--green);}
+  .badge.no{background:#EDEBE3;color:#7A7566;}
+  .badge.warn{background:var(--amber-bg);color:var(--amber);}
+
+  .result-block{border-top:1px solid #EFEBE0;padding-top:14px;margin-top:14px;}
+  .result-block:first-of-type{border-top:none;padding-top:0;margin-top:0;}
+  .rk{font-size:11.5px;text-transform:uppercase;letter-spacing:.09em;color:#9C9686;margin-bottom:6px;}
+  .rv{font-size:14.5px;line-height:1.7;color:var(--ink);}
+  .rv b{font-weight:700;}
+  .rv .muted{color:var(--ink-soft);font-size:13px;}
+
+  .foot-note{
+    font-size:11.5px;
+    color:#9C9686;
+    line-height:1.8;
+    margin-top:18px;
+    padding-top:14px;
+    border-top:1px solid #EFEBE0;
+  }
+
+  .ai-card{
+    background:var(--paper);
+    border:1px solid var(--navy);
+    border-radius:var(--radius);
+    padding:22px 24px;
+    margin-bottom:16px;
+  }
+  .ai-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.06em;
+    color:var(--navy);
+    background:#E8EDF1;
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:10px;
+  }
+  textarea#reportText{
+    width:100%;
+    min-height:96px;
+    padding:11px 12px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    font-size:14px;
+    font-family:"Noto Sans TC", sans-serif;
+    background:#FCFBF8;
+    color:var(--ink);
+    resize:vertical;
+    line-height:1.6;
+  }
+  .btn-ai{
+    margin-top:12px;
+    padding:11px 20px;
+    border:1px solid var(--navy);
+    border-radius:8px;
+    background:var(--navy);
+    color:#F3EFE4;
+    font-size:14px;
+    font-weight:700;
+    font-family:"Noto Sans TC", sans-serif;
+    cursor:pointer;
+  }
+  .btn-ai:hover{background:var(--navy-deep);}
+  .btn-ai:disabled{opacity:.55;cursor:default;}
+  .ai-status{
+    margin-top:12px;
+    font-size:13px;
+    color:var(--ink-soft);
+    display:none;
+  }
+  .ai-status.show{display:block;}
+  .ai-summary{
+    margin-top:14px;
+    border-top:1px solid #EFEBE0;
+    padding-top:14px;
+    display:none;
+  }
+  .ai-summary.show{display:block;}
+  .ai-summary .arow{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    font-size:13px;
+    padding:5px 0;
+    border-bottom:1px dashed #EFEBE0;
+  }
+  .ai-summary .arow:last-child{border-bottom:none;}
+  .ai-summary .ak{color:var(--ink-soft);flex:none;}
+  .ai-summary .av{text-align:right;font-weight:500;}
+  .missing-box{
+    margin-top:12px;
+    background:var(--amber-bg);
+    border:1px solid #E7CE9C;
+    border-radius:8px;
+    padding:12px 14px;
+    font-size:13px;
+    color:var(--amber);
+    line-height:1.7;
+    display:none;
+  }
+  .missing-box.show{display:block;}
+  .candidate-list{margin-top:12px;display:none;}
+  .candidate-list.show{display:block;}
+  .candidate-item{
+    width:100%;
+    text-align:left;
+    border:1px solid var(--line);
+    background:#FCFBF8;
+    border-radius:8px;
+    padding:10px 12px;
+    margin-top:8px;
+    cursor:pointer;
+    font-family:"Noto Sans TC", sans-serif;
+    color:var(--ink);
+  }
+  .candidate-item:hover{border-color:var(--navy);background:#F3F6F9;}
+  .candidate-item .cname{font-size:13.5px;font-weight:700;}
+  .candidate-item .cmeta{font-size:12px;color:var(--ink-soft);margin-top:3px;line-height:1.5;}
+
+  .extra-box{
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px dashed var(--line);
+    display:none;
+  }
+  .extra-box.show{display:block;}
+  .extra-row{display:none;margin-bottom:12px;}
+  .extra-row.show{display:block;}
+  .extra-row .ctext{font-size:13px;color:var(--ink);}
+
+  .search-wrap{position:relative;}
+  .search-results{
+    display:none;
+    position:absolute;
+    z-index:20;
+    left:0;right:0;
+    top:calc(100% + 4px);
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:8px;
+    max-height:240px;
+    overflow:auto;
+    box-shadow:0 10px 28px rgba(20,30,40,0.12);
+  }
+  .search-results.show{display:block;}
+  .search-item{
+    width:100%;
+    text-align:left;
+    border:none;
+    background:transparent;
+    padding:10px 12px;
+    cursor:pointer;
+    font-family:"Noto Sans TC", sans-serif;
+    border-bottom:1px solid #F0EDE3;
+  }
+  .search-item:last-child{border-bottom:none;}
+  .search-item:hover{background:#F3F6F9;}
+  .search-item .slabel{font-size:13px;color:var(--ink);display:block;}
+  .search-item .scls{font-size:11.5px;color:#96907F;margin-top:2px;display:block;}
+  .search-empty{padding:12px;font-size:12.5px;color:#96907F;}
+
+  .building-group{margin-bottom:6px;}
+  .validation-box{
+    margin-top:12px;
+    background:var(--brick-bg);
+    border:1px solid #E8B9A4;
+    border-radius:8px;
+    padding:10px 12px;
+    font-size:13px;
+    color:var(--brick);
+    line-height:1.6;
+    display:none;
+  }
+  .validation-box.show{display:block;}
+
+  .stamp-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(10,20,30,0.6);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
+    cursor:pointer;
+    padding:20px;
+    opacity:0;
+    transition:opacity .25s ease;
+  }
+  .stamp-overlay.show{
+    display:flex;
+    opacity:1;
+  }
+  .stamp-box{
+    background:#FFFDF7;
+    border:3px solid var(--stamp);
+    border-radius:14px;
+    padding:38px 40px;
+    max-width:400px;
+    width:100%;
+    text-align:center;
+    cursor:default;
+    box-shadow:0 25px 70px rgba(0,0,0,0.4);
+    transform-origin:center;
+  }
+  .stamp-box.animate{
+    animation: stampSlam .55s cubic-bezier(.22,.9,.32,1.25) forwards;
+  }
+  @keyframes stampSlam{
+    0%{ opacity:0; transform:scale(0.25) rotate(-14deg); }
+    55%{ opacity:1; transform:scale(1.12) rotate(-3deg); }
+    78%{ transform:scale(0.97) rotate(-4deg); }
+    100%{ opacity:1; transform:scale(1) rotate(-3deg); }
+  }
+  .stamp-badge{
+    display:inline-block;
+    border:3px solid var(--stamp);
+    color:var(--stamp);
+    font-family:"Noto Serif TC", serif;
+    font-weight:700;
+    font-size:22px;
+    letter-spacing:.08em;
+    padding:8px 22px;
+    border-radius:8px;
+    transform:rotate(-3deg);
+    margin-bottom:16px;
+  }
+  .stamp-box.warn .stamp-badge{ border-color:var(--amber); color:var(--amber); }
+  .stamp-box.no .stamp-badge{ border-color:#7A7566; color:#7A7566; }
+  .stamp-text{
+    font-size:14px;
+    line-height:1.8;
+    color:var(--ink);
+  }
+  .stamp-hint{
+    margin-top:18px;
+    font-size:11.5px;
+    color:#A29C8C;
+  }
+
+  .page-footer{
+    margin-top:36px;
+    padding:32px 28px 28px;
+    border-radius:var(--radius);
+    background:var(--navy-deep);
+    color:#CBD6DE;
+    border:1px solid var(--navy);
+  }
+  .footer-brand{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:12px;
+    margin-bottom:18px;
+    text-align:center;
+  }
+  .footer-logo{
+    display:block;
+    width:150px;
+    height:auto;
+  }
+  .footer-credit{
+    font-family:"Noto Serif TC", serif;
+    font-size:14px;
+    font-weight:700;
+    color:#F3EFE4;
+    letter-spacing:.08em;
+  }
+  .footer-note{
+    font-size:12px;
+    color:#A8B6C3;
+    line-height:1.85;
+    max-width:760px;
+    margin:0 auto;
+    text-align:left;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <p class="eyebrow">新設立 / 變更登記場所 · 現場查察輔助工具</p>
+    <h1>消防列管快速檢核表</h1>
+    <a class="src" href="https://docs.google.com/spreadsheets/d/1ITxs7bVvdLCuzw0xq3j_yXDOuNkCspiB/edit?usp=drivesdk&ouid=112554514654293585469&rtpof=true&sd=true" target="_blank" rel="noopener noreferrer">資料來源：南投縣政府消防局消防安全列管對象範圍參考表（114.09.16修正）↗</a>
+  </div>
+
+  <div class="layout">
+    <div class="left">
+
+      <div class="card" style="border-color:var(--brick);">
+        <div class="step-label"><span class="step-num" style="background:var(--brick);">1</span><span class="step-title">免列管情形快速篩選</span></div>
+        <div class="hint" style="margin:0 0 10px;">先確認是否屬於明顯不需列管的情形。若符合下列任一項，可直接向業主說明「不需列管」並附理由，不用往下填寫。若都不符合，請繼續下方步驟。<br><b>說明：</b>除「家庭托顧服務」外，其餘三項為現場實務快速篩選，非參考表原文條目。</div>
+        <div class="check-row">
+          <input type="checkbox" id="exemptOutdoor">
+          <span class="ctext">此場所為<b>無頂蓋、樑柱或牆壁之純露天構造物</b>（例如露天攤位、露天停車格，完全無遮蔽建築構造）
+            <span class="csub">實務篩選：消防法所稱應設消防安全設備之場所，須為定著於土地上或地面下具頂蓋、樑柱或牆壁之建築物或構造物</span></span>
+        </div>
+        <div class="check-row">
+          <input type="checkbox" id="exemptResidence">
+          <span class="ctext">此場所為<b>純自用獨立住宅</b>（非集合住宅整棟商用、非營業使用）
+            <span class="csub">實務篩選：未列於南投縣列管參考表任何一類用途範圍內</span></span>
+        </div>
+        <div class="check-row">
+          <input type="checkbox" id="exemptHomeOffice">
+          <span class="ctext">此場所為<b>「在宅工作／接案」</b>——於自宅內工作或接案，<b>無獨立對外營業空間、無顧客上門、無招牌</b>
+            <span class="csub">實務篩選：仍屬住宅使用性質；若有顧客上門、掛招牌或有獨立對外營業空間，請勿勾選</span></span>
+        </div>
+        <div class="check-row">
+          <input type="checkbox" id="exemptFamilyCare">
+          <span class="ctext">此場所為<b>家庭托顧服務</b>（服務員於自宅內照顧<b>4人以下</b>）
+            <span class="csub">依南投縣列管參考表備註，此規模由分隊列冊管理，非正式消防安全設備列管對象</span></span>
+        </div>
+        <button class="btn-ai" style="background:var(--brick); border-color:var(--brick);" onclick="runExemptCheck()">檢查是否可直接判定不需列管</button>
+        <div class="ai-status" id="exemptStatus"></div>
+      </div>
+
+      <div class="ai-card">
+        <span class="ai-tag">本機解析・選填</span>
+        <div class="step-label" style="margin-bottom:8px;"><span class="step-num">2</span><span class="step-title">負責人轉述內容</span></div>
+        <div class="hint" style="margin:0 0 10px;">可貼上電話或口頭轉述內容（不必整理格式）。工具會依業者常見說法（如火鍋、燒肉、窯烤麵包、牙醫等）在本機初步彙整可能場所，並嘗試帶入面積、人數等數字，供您點選。下拉選單仍顯示正式用途名稱。解析後請務必核對再產生結果。</div>
+        <textarea id="reportText" placeholder="例如：老闆說是窯烤麵包店，大概20坪，有內用座位；或：開火鍋店，員工6人"></textarea>
+        <button class="btn-ai" onclick="runLocalExtract()" id="aiBtn">解析並列出可能場所</button>
+        <div class="ai-status" id="aiStatus"></div>
+        <div class="ai-summary" id="aiSummary"></div>
+        <div class="candidate-list" id="candidateList"></div>
+        <div class="missing-box" id="aiMissing"></div>
+      </div>
+
+      <div class="card">
+        <div class="step-label"><span class="step-num">3</span><span class="step-title">場所主要用途（請核對或調整）</span></div>
+        <label class="field-label">快速檢索場所</label>
+        <div class="search-wrap">
+          <input type="search" id="useSearch" placeholder="輸入業者說法或業種，例如：火鍋、燒肉、麵包店、牙醫、民宿…" autocomplete="off">
+          <div class="search-results" id="useSearchResults"></div>
+        </div>
+        <div class="hint">可搜尋火鍋、窯烤、手搖飲等常見說法，系統會對到正式用途（最多列出約3個候選）。超商、美髮等參考表未列業種會提示請現場確認。也可直接用下方下拉選單。</div>
+        <label class="field-label">請選擇最符合的場所用途</label>
+        <select id="useType"></select>
+        <div class="hint" id="useTypeHint"></div>
+
+        <div class="extra-box" id="extraBox">
+          <label class="field-label" style="margin-top:0;">此用途需要的補充資訊</label>
+          <div id="extraFieldsContainer"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="step-label"><span class="step-num">4</span><span class="step-title">建築物概況</span></div>
+        <div class="building-group">
+          <label class="field-label" style="margin-top:0;">建築物使用型態（擇一）</label>
+          <div class="check-row">
+            <input type="radio" name="buildingForm" id="buildingSingle" value="single" checked>
+            <span class="ctext">此場所位於<b>單一用途獨立建築物</b>
+              <span class="csub">整棟（或本場所所在建築）僅此一種用途，非同棟混用其他營業／公眾用途</span></span>
+          </div>
+          <div class="check-row">
+            <input type="radio" name="buildingForm" id="buildingComplex" value="complex">
+            <span class="ctext">此場所所在建築物為<b>複合用途建築物</b>
+              <span class="csub">同一棟樓混合多種不同用途，例如1樓店面＋樓上住宅或辦公室</span></span>
+          </div>
+        </div>
+        <div id="complexSub" style="display:none; padding-left:26px;">
+          <div class="check-row">
+            <input type="checkbox" id="complexHasA">
+            <span class="ctext">整棟建築物中，有任一部分供<b>甲類場所</b>用途使用（如KTV、餐廳、旅館、醫院等）
+              <span class="csub">含甲類者：依現場實際狀況整棟檢討；不含甲類者：先依個別用途門檻判斷</span></span>
+          </div>
+        </div>
+        <div class="check-row">
+          <input type="checkbox" id="isUnderground">
+          <span class="ctext">此建築物為<b>地下建築物</b>（如地下街）
+            <span class="csub">地下建築物依參考表一律列管，並應設置防火管理人</span></span>
+        </div>
+        <div class="check-row">
+          <input type="checkbox" id="is11F">
+          <span class="ctext">建築物地面樓層達<b>11層以上</b>
+            <span class="csub">管理權分屬多人時，另應協議遴用共同防火管理人（集合住宅另有特別規定）</span></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="step-label"><span class="step-num">5</span><span class="step-title">規模資料</span></div>
+        <div class="hint" id="scaleHint" style="margin:0 0 10px;">請先選擇場所用途；系統會依該用途門檻顯示需要填寫的欄位。收容人數、員工人數僅在列管或防火管理門檻有用到時才需填。</div>
+        <div class="grid2">
+          <div id="fieldArea">
+            <label class="field-label">場所總樓地板面積（㎡）</label>
+            <input type="number" id="area" min="0" placeholder="例如 320">
+          </div>
+          <div id="fieldCapacity" style="display:none;">
+            <label class="field-label">收容人數（含員工，人）</label>
+            <input type="number" id="capacity" min="0" placeholder="例如 45">
+            <div class="hint" id="capacityHint"></div>
+          </div>
+        </div>
+        <div id="fieldStaff" style="display:none; margin-top:4px;">
+          <label class="field-label">員工人數（人）</label>
+          <input type="number" id="staff" min="0" placeholder="例如 12">
+          <div class="hint" id="staffHint"></div>
+        </div>
+        <div class="validation-box" id="validationBox"></div>
+      </div>
+
+      <button class="btn-primary" onclick="runCheck()">產生檢核結果</button>
+    </div>
+
+    <div class="results">
+      <div id="resultEmpty" class="result-empty">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#A29C8C" stroke-width="1.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+        <div>完成左側步驟後，<br>按下「產生檢核結果」查看判斷結果</div>
+      </div>
+      <div id="resultCard" style="display:none;">
+        <div class="card">
+          <span class="result-stamp" id="stampText">檢核結果</span>
+          <div class="result-block">
+            <div class="rk">是否列管（消防安全設備／檢修申報）</div>
+            <div class="rv" id="rManaged"></div>
+          </div>
+          <div class="result-block">
+            <div class="rk">場所分類</div>
+            <div class="rv" id="rClass"></div>
+          </div>
+          <div class="result-block">
+            <div class="rk">防火管理／自衛消防編組</div>
+            <div class="rv" id="rFireMgmt"></div>
+          </div>
+          <div class="result-block" id="rFlameBlock">
+            <div class="rk">防焰制度（補述）</div>
+            <div class="rv" id="rFlame"></div>
+          </div>
+          <div class="result-block" id="rCoManagedBlock" style="display:none;">
+            <div class="rk">共同防火管理人</div>
+            <div class="rv" id="rCoManaged"></div>
+          </div>
+          <div class="foot-note">本結果為初步判斷，依<a href="https://docs.google.com/spreadsheets/d/1ITxs7bVvdLCuzw0xq3j_yXDOuNkCspiB/edit?usp=drivesdk&ouid=112554514654293585469&rtpof=true&sd=true" target="_blank" rel="noopener noreferrer" style="color:inherit;">南投縣政府消防局消防安全列管對象範圍參考表（114.09.16修正）↗</a>編製。實際列管、檢修申報頻率與應設消防安全設備項目，仍應由消防機關依現場勘查、使用執照用途及正確樓地板面積核認。公共危險物品場所、液化石油氣串接使用達300公斤以上等特殊情形，另有個別規定，請併同確認。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="page-footer">
+    <div class="footer-brand">
+      <img class="footer-logo" src="data:image/png;base64,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VRUi4qVLl77leR5PmDDhpMS9jRs3vnvSSSdtSp6LxJ9fe+210UccccSRifdbaxGJRLB169b49ddf/8qCBQu81t67ePHiCf379x/m+754nscjR46cXV5enjVixIhTVdU6jmMWL1686vzzz/+gtfc+8sgjhaeeemqxaT1zrRpj6N1336259NJLy9sae1lZWd6ECRPOcpy9a7IlxrBhw4b4ySef/ApasUlcd9117re//e3JhYWFkXg8jrAfifd+dOmlly5vSTtp2xwWLDizf//+BQk6bUljn3zyidx5552vv/HGG/Wt0UdJSUnksssum5yXl+cm9XGvOVqyZEnjhRde2C6NlJSUHDxt2rTjsrOzNZnWAWgkEqEPPvig/txzz321LUl7ypQp5gc/+MHkgoKCLGMMNm3a1ExELy9evPiEPn36DFZV8TyPn3/++TdvvfXWbS3njYhARPrss8+efsIJJ/RpjdaXLFmy9MILL1zZGq28+uqrQ0aNGnV8Ym+vXbu29rXXXis/55xzzjj44IPzrbVqjKEFCxbMx80333zEzp07tb1r+fLlKwG0nNBEh6Lbtm3bkfz7e++994QXXnjh28n3Nm3aNK81ThtyUuejjz56Rzu4Fi1a9KeEKtSSE//zn/88qKGhYfdvrbX68ssvl27YsOGDxD3f9/Xuu++ekFBF9kj15U4omt4kIm2+f8WKFTsBZIWnC+2tGQRtLF++/BvJzyxZsuRz8+fPPyP53scff3xF8jPhOBwAeP/993/c2ru3bNkSO+WUU3q3PH0Sz23ZsuWxFu9465VXXvlp8r25c+c+mPxMQiUEgOeff/6Ejubf8zx96aWXrmhlDRgA3n333dHtPb969Wqbl5fXP3kMie8bb7yx986dO2OtPVdRUfGzlv3ORBqorq5e09EYFy5c+GRbNHbPPff037lzp3TUxhtvvPGDlusbZqmkKVOm5K1atWplR21UVFRMb4VGCAC+8pWv5NbU1NQl/768vPznK1aseDv53kMPPXRm8honj2v27NnT4vF4m+9/991372g554m+fPjhh19O/u3KlSvXAMCaNWs2JN+fM2fOtU7IaZsARMM/U0svJxHVtisGOU4NgILwZHIBDPd9v1/oW44BiDqOU9cWRz/33HN79+nT5+ggOl6UmZNjK2z4MYceeuhhbWUXs9aq4zg7w34oM/O55557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3HDD80kn0V66X2VlZW1lZeWVWVlZLjNjy5Yt9WVlZWbLli13xuPxfgB0x44dBGAtAJQmBf0VFxf7ocryq9mzZ2886qijCuLx+D5WK1VVYwxVVVV92BKMVVFRIQCwefPmOfn5+VcnjORVVVXrVdVs2rQp+d7c5GcAYMaMGQIANTU1szZv3rymublZjTGUGP/WrVtjOTk5DS313cRzVVVVD6hqeTweF2MMM/OKrVu3Zm3evPnqeDxuI5GIqampWZb8TLKtoa6ubvXq1auvjkQisNa2SgcLFy6svuCCC/4WGvT2ycC/bdu2qtWrV18ViUQouY3EGLZt2xbLy8urTR5D4nvbtm0NlZWV32hsbIwm6DDx3pqamkUt+52JwbuysvK25ubm3tbavdbWWousrCytrKz0S0tLX2i5tkk0VldVVXVlfX19BIA2NjbS+PHja+rr65/evHnzysQ8V1VVrWnZRoLePM/buHLlyqv79u2bkN7tjTfeuHbWrFm/37x588JEG9XV1WtajjnRjxUrVsQrKytvqK+vzwaALVu2eNddd527devWnxhjHrPWSnNzM8fj8WUt7UlEZMP1e/zFF1+sPe644/ol03pizqurq99r+f4EvVZWVs7Lzc292lorxhiurq6uKSsrM9XV1TdnZWX18jxPXdelhoaGOf8frc9kzQWsrawAAAAASUVORK5CYII=" alt="打火 ZXB 中心碑分隊" width="140" height="38">
+      <div class="footer-credit">中心碑分隊 張小熊製作</div>
+    </div>
+    <p class="footer-note">依「南投縣政府消防局消防安全列管對象範圍參考表」（114年9月16日修正）編製，快速判斷場所是否需辦理消防安全設備檢修申報，以及是否需設置防火管理人。本工具主判斷為「需列管／不需列管」；防焰制度僅於結果中作簡短補述，不另作達標判定。正式列管仍應以轄區消防機關現場勘查及使用執照登載用途為準；若查察地點非屬南投縣，各縣市門檻可能略有不同，請另行確認轄區公告版本。</p>
+  </footer>
+
+</div>
+
+<div class="stamp-overlay" id="stampOverlay" onclick="closeStampModal()">
+  <div class="stamp-box" id="stampBox">
+    <span class="stamp-badge" id="stampBoxBadge">檢核結果</span>
+    <div class="stamp-text" id="stampBoxText"></div>
+    <div class="stamp-hint">點擊畫面任一處，查看完整檢核說明</div>
+  </div>
+</div>
+
+<script>
+function alwaysEquip(note){
+  return function(){
+    return {applies:true, detail: note || "依規定無面積限制，一律應檢討設置消防安全設備並辦理檢修申報。"};
+  };
+}
+function alwaysFm(note){
+  return function(){ return {applies:true, detail:(note||"依規定無面積或人數限制，一律應設置防火管理人。")}; };
+}
+function noneFm(note){
+  return function(){ return {applies:false, detail:(note||"此用途未列於防火管理門檻清單中，原則上免設防火管理人。")}; };
+}
+function areaRule(min, label){
+  return function(inputs){
+    const ok = inputs.area >= min;
+    return {applies:ok, detail:(label||"門檻為總樓地板面積") + min + "㎡以上；您輸入面積為" + inputs.area + "㎡，" + (ok?"已達門檻。":"尚未達門檻。")};
+  };
+}
+function areaStaffRule(areaMin, staffMin){
+  return function(inputs){
+    const ok = inputs.area >= areaMin && inputs.staff >= staffMin;
+    return {applies:ok, detail:"門檻為總樓地板面積" + areaMin + "㎡以上「且」員工" + staffMin + "人以上（兩者須同時符合）；您輸入面積" + inputs.area + "㎡、員工" + inputs.staff + "人，" + (ok?"已達門檻。":"尚未同時達到門檻。")};
+  };
+}
+function capacityRule(min){
+  return function(inputs){
+    const ok = inputs.capacity >= min;
+    return {applies:ok, detail:"門檻為收容人數(含員工)" + min + "人以上；您輸入人數為" + inputs.capacity + "人，" + (ok?"已達門檻。":"尚未達門檻。")};
+  };
+}
+function manualCheckRule(note){
+  return function(){ return {applies:null, detail:note}; };
+}
+
+const FLAME = {
+  all: "此類場所於參考表防焰欄列為「全部」，另請依防焰相關規定確認。",
+  area300: "此類場所於參考表防焰欄列有「300㎡以上」相關要求，細節請另依防焰規定確認。",
+  area200: "此類場所於參考表防焰欄列有「200㎡以上」相關要求，細節請另依防焰規定確認。",
+  area500: "此類場所於參考表防焰欄列有「500㎡以上」相關要求，細節請另依防焰規定確認。",
+  ward: "此類場所於參考表防焰欄註「限有病房者」，細節請另依防焰規定確認。",
+  longcareH2: "此類場所於參考表防焰欄對社區式長照（H-2日間照顧、團體家屋及小規模多機能）另有「200㎡以上」相關要求，細節請另依防焰規定確認。",
+  none: "此類場所於參考表防焰欄未列概括要求。"
+};
+
+const EXTRA_FIELD_DEFS = {
+  hasPilgrimLodging: {label:"是否設有供香客住宿之香客大樓或類似住宿休息空間", type:"checkbox"},
+  bedCount: {label:"避難弱者病床數（如婦產科／洗腎中心等）", type:"number"},
+  clinicNonRefuge: {label:"是否為婦產科或洗腎中心，且位於非避難層", type:"checkbox"},
+  useFloors: {label:"使用樓層數", type:"number"},
+  overnightStay: {label:"夜間非看診時段是否具病床供患者過夜", type:"checkbox"},
+  floors: {label:"建築物地面樓層數（整棟）", type:"number"},
+  unitsPerFloor6: {label:"任一住宅單位（戶）之任一樓層，是否分間達6個以上使用單元，或設置10個以上床位之居室", type:"checkbox"},
+  roomCount: {label:"房間數", type:"number"},
+  isCommunityCare: {label:"是否供社區照顧關懷據點等類似用途使用", type:"checkbox"},
+  isUrbanPlan: {label:"廠房／場地是否位於都市計畫範圍內", type:"checkbox"},
+  isTourismFactory: {label:"是否屬觀光工廠", type:"checkbox"},
+  taiwanRailwayCert: {label:"是否為臺鐵車站，或經消防機關審勘通過、領有合格使用執照之車站", type:"checkbox"},
+};
+
+/* 搜尋／轉述對應詞：不改正式用途名稱，只讓業者口語、招牌常見說法能對到正確類別 */
+const UNLISTED_HINTS = [
+  { terms:["便利商店","超商","便利超商","7-11","全家","萊爾富","OK超商"], note:"便利商店／超商於南投縣列管參考表無專項，原則請依使用執照與現場確認，勿逕自套入商場或超市。" },
+  { terms:["美髮","髮廊","理髮廳","剪髮","燙染","美甲","指甲彩繪","美容院","美容工作室"], note:"一般美髮／美甲／美容院（未附設指壓、三溫暖等）於參考表無專項，請現場確認；若含指壓按摩或三溫暖設施，改對甲類相關用途。" },
+  { terms:["寵物店","寵物美容","動物醫院","獸醫"], note:"寵物店／寵物美容於參考表無專項；若為動物醫院，仍請依實際登記與現場確認，勿逕自套入診所。" },
+  { terms:["服飾店","服裝店","精品店","鞋店","手機行","通訊行","3C","五金行","雜貨店","文具店","書店"], note:"一般零售／服務業小店於參考表常無對應專項，小規模者多未達列管；請現場確認，勿硬套商場類。" },
+  { terms:["洗衣店","自助洗衣","影印店","照相館","花店"], note:"此類服務業於參考表無專項，請現場確認是否具特殊危險性或達其他列管條件。" },
+];
+
+const PLACE_TYPES = [
+  { group:"甲類（一）電影院／KTV／旅館型娛樂場所", items:[
+    { id:"a1_venue", label:"電影院／歌廳／舞廳／夜總會／俱樂部／理容院／指壓按摩場所／MTV／KTV／酒家／酒吧／PUB／酒店(廊)", cls:"甲類（一）", keywords:["電影","戲院","影城","歌廳","舞廳","夜店","夜總會","俱樂部","理容","觀光理髮","指壓","按摩","視障按摩","MTV","KTV","卡拉OK","唱K","酒家","酒吧","Bar","PUB","酒店","酒店廊","視聽","特種營業"], equip:alwaysEquip(), fm:alwaysFm("含PUB及收容人數(含員工)30人以上之視障按摩場所。"), flame:FLAME.all },
+  ]},
+  { group:"甲類（二）休閒娛樂場所", items:[
+    { id:"a2_bowling", label:"保齡球館／集會堂", cls:"甲類（二）", keywords:["保齡球","Bowling","集會堂","集會所"], equip:alwaysEquip(), fm:alwaysFm("保齡球館、集會堂不限面積，一律應設防火管理人。"), flame:FLAME.all },
+    { id:"a2_golf", label:"室內螢幕式高爾夫練習場", cls:"甲類（二）", keywords:["高爾夫","螢幕高爾夫","室內高爾夫","模擬高爾夫","Golf"], equip:alwaysEquip(), fm:noneFm("室內螢幕式高爾夫練習場於防火管理門檻中未列概括要求。"), flame:FLAME.all },
+    { id:"a2_gym", label:"撞球場／健身休閒中心／運動訓練班／遊藝場所／電子遊戲場／資訊休閒場所", cls:"甲類（二）", keywords:["撞球","撞球館","健身","健身房","健身中心","重訓","瑜珈","瑜伽","皮拉提斯","運動訓練","遊藝","電子遊戲","電玩","夾娃娃","網咖","網路咖啡","資訊休閒","美容瘦身","瘦身會館","SPA會館"], equip:alwaysEquip(), fm:areaRule(500), flame:FLAME.all, needsFm:["area"] },
+  ]},
+  { group:"甲類（三）旅宿場所", items:[
+    { id:"a3_hotel", label:"觀光旅館／飯店／旅館", cls:"甲類（三）", keywords:["觀光旅館","飯店","旅館","旅店","旅社","民宿","住宿","飯店式","商務旅館","汽車旅館","Motel","Hotel","B&B","背包客棧","青旅","Hostel","渡假村"], equip:alwaysEquip(), fm:alwaysFm(), flame:FLAME.all },
+    { id:"a3_hostel", label:"招待所（有寢室客房者）", cls:"甲類（三）", keywords:["招待所","員工招待所","機關招待所"], equip:alwaysEquip(), fm:capacityRule(100), flame:FLAME.all, needsFm:["capacity"] },
+  ]},
+  { group:"甲類（四）商場市集展覽場所", items:[
+    { id:"a4_mall", label:"百貨商場／超級市場", cls:"甲類（四）", keywords:["百貨","百貨公司","購物中心","Outlet","超市","超級市場","量販","量販店","大賣場"], equip:areaRule(300), fm:areaRule(500), flame:FLAME.area300, needsEquip:["area"], needsFm:["area"] },
+    { id:"a4_market", label:"商場／市場／零售市場／展覽場", cls:"甲類（四）", keywords:["商場","市場","傳統市場","零售市場","夜市（有建築）","展覽","展覽館","展場","博覽會"], equip:areaRule(300), fm:noneFm("商場、市場、零售市場、展覽場未列於防火管理門檻清單中。"), flame:FLAME.area300, needsEquip:["area"] },
+  ]},
+  { group:"甲類（五）餐飲場所", items:[
+    { id:"a5_restaurant", label:"餐廳／咖啡廳", cls:"甲類（五）",
+      keywords:["餐廳","餐館","食堂","飯館","咖啡","咖啡廳","咖啡館","咖啡店","Cafe","輕食","簡餐","早午餐","Brunch","火鍋","燒烤","燒肉","烤肉","居酒屋","餐酒館","Bistro","牛排","鐵板燒","吃到飽","自助餐","合菜","熱炒","義大利麵","披薩","壽司","日式料理","韓式料理","泰式","越南河粉","義式","法式","中式餐廳","親子餐廳","主題餐廳","內用","麵包店","烘焙","窯烤","甜點店"],
+      tip:"有內用座位、偏餐飲空間者，優先考慮本類；純外帶麵包／飲料店可改選飲食店／茶藝館。",
+      equip:areaRule(300), fm:areaRule(300), flame:FLAME.area300, needsEquip:["area"], needsFm:["area"] },
+    { id:"a5_eatery", label:"飲食店／茶藝館", cls:"甲類（五）",
+      keywords:["飲食店","小吃","小吃店","茶藝","茶館","茶坊","飲料店","手搖飲","手搖","珍奶","珍珠奶茶","飲料","早餐店","早點","麵包","麵包店","烘焙","烘焙坊","窯烤","吐司","蛋糕","蛋糕店","甜點","甜點店","糕餅","餅店","便當","便當店","滷味","鹽酥雞","雞排","滷肉飯","麵店","麵食","餃子","水餃","鍋貼","蔥油餅","豆漿","外帶","外送為主"],
+      tip:"以販售／外帶為主、少量或無內用者，優先考慮本類；窯烤麵包等亦多先對本類，有明顯內用再改選餐廳／咖啡廳。",
+      equip:areaRule(300), fm:noneFm("飲食店、茶藝館於防火管理門檻中除外。"), flame:FLAME.area300, needsEquip:["area"] },
+  ]},
+  { group:"甲類（六）醫療與社福機構", items:[
+    { id:"a6_hospital", label:"醫院／療養院／榮民之家／長照機構(住宿式／社區式非H-2)／護理之家／身心障礙福利機構(住宿等)／特殊學校", cls:"甲類（六）", keywords:["醫院","醫學中心","區域醫院","地區醫院","療養院","榮民","榮家","長照","長照機構","住宿式長照","護理之家","產後護理","坐月子中心","月子中心","身心障礙","身障機構","特殊學校","啟明","啟智","啟聰","安養","安養院","養護機構"], equip:alwaysEquip(), fm:alwaysFm(), flame:FLAME.all },
+    { id:"a6_infant", label:"托嬰中心／早期療育機構（收托或安置5人以上）", cls:"甲類（六）", keywords:["托嬰","托嬰中心","早療","早期療育","嬰兒托育","收托嬰兒"], equip:alwaysEquip("屬甲類（六）兒童及少年福利機構範圍；備註要求收托或安置5人以上規模。"), fm:alwaysFm(), flame:FLAME.all },
+  ]},
+  { group:"甲類（七）沐浴場所", items:[
+    { id:"a7_sauna", label:"三溫暖", cls:"甲類（七）", keywords:["三溫暖","sauna","Sauna","汗蒸"], equip:alwaysEquip(), fm:alwaysFm(), flame:FLAME.all },
+    { id:"a7_bath", label:"公共浴室", cls:"甲類（七）", keywords:["公共浴室","澡堂","浴場","大眾池"], equip:alwaysEquip(), fm:noneFm("公共浴室於防火管理門檻中除外。"), flame:FLAME.all },
+  ]},
+  { group:"乙類（一）交通運輸場所", items:[
+    { id:"b1_airport", label:"飛機場大廈／候船室", cls:"乙類（一）", keywords:["機場","飛機場","航空站","候船","商港","碼頭候船"], equip:alwaysEquip(), fm:areaStaffRule(500,30), flame:FLAME.none, needsFm:["area","staff"] },
+    { id:"b1a_station_gen", label:"車站（一般公路／公車站）", cls:"乙類（一之一）", keywords:["公車站","客運站","公路車站","轉運站","巴士站","車站"],
+      equip:function(inputs){
+        if(inputs.taiwanRailwayCert) return {applies:true, detail:"屬臺鐵或經消防機關審勘通過、領有合格使用執照之車站，依規定列管。"};
+        return areaRule(500)(inputs);
+      },
+      fm:noneFm("一般公路、公車站未列於防火管理門檻清單中。"),
+      flame:FLAME.none, extra:["taiwanRailwayCert"], needsEquip:["area"] },
+    { id:"b1a_station_rail", label:"捷運車站／台鐵(地下化/高架)車站／高速鐵路車站", cls:"乙類（一之一）", keywords:["捷運","捷運站","台鐵","臺鐵","火車站","高鐵","高鐵站","鐵路車站","鐵路地下化","鐵路高架"], equip:alwaysEquip(), fm:alwaysFm("捷運車站、鐵路地下化／高架車站（招呼站除外）、高速鐵路車站應設防火管理人。"), flame:FLAME.none },
+  ]},
+  { group:"乙類（二）金融場所", items:[
+    { id:"b2_finance", label:"期貨經紀業／證券交易所／金融機構", cls:"乙類（二）", keywords:["銀行","分行","金融","證券","證券商","期貨","信用合作社","農會信用部","郵局（金融）","保險公司營業處"], equip:alwaysEquip(), fm:areaStaffRule(500,30), flame:FLAME.none, needsFm:["area","staff"] },
+  ]},
+  { group:"乙類（三）教育與補教場所", items:[
+    { id:"b3_school", label:"學校教室", cls:"乙類（三）", keywords:["學校","教室","國小","國中","高中","高職","大學","學院","校園"], equip:alwaysEquip(), fm:alwaysFm(), flame:FLAME.none },
+    { id:"b3a_cram", label:"補習班／訓練班（運動訓練班除外）", cls:"乙類（三之一）", keywords:["補習班","補習","安親","安親班","才藝班","文理補習","美語","英文補習","數學補習","訓練班","職訓","證照班","駕駛訓練（教室）"], equip:alwaysEquip(), fm:areaRule(200), flame:FLAME.area200, needsFm:["area"] },
+    { id:"b3a_afterschool", label:"兒童課後照顧服務中心／K書中心／其他安置及教養機構", cls:"乙類（三之一）", keywords:["課後照顧","課照","課後照顧中心","K書","K書中心","自習室","安置機構","教養機構"], equip:alwaysEquip(), fm:noneFm("此用途於防火管理門檻清單中未列（補習班／訓練班除外）。"), flame:FLAME.area200 },
+  ]},
+  { group:"乙類（四）文化展示場所", items:[
+    { id:"b4_lib", label:"圖書館／博物館", cls:"乙類（四）", keywords:["圖書館","圖書室","博物館"], equip:alwaysEquip(), fm:areaRule(500), flame:FLAME.area500, needsFm:["area"] },
+    { id:"b4_museum", label:"美術館／陳列館／史蹟資料館／紀念館", cls:"乙類（四）", keywords:["美術館","陳列館","史蹟","紀念館","文物館","藝文館"], equip:alwaysEquip(), fm:noneFm("此用途於防火管理門檻清單中未列。"), flame:FLAME.area500 },
+  ]},
+  { group:"乙類（五）宗教場所", items:[
+    { id:"b5_temple", label:"寺廟／宗祠／教堂／納骨堂(塔)", cls:"乙類（五）", keywords:["寺廟","廟","宮","寺","宗祠","祠堂","教堂","教會","禮拜堂","清真寺","納骨","納骨堂","納骨塔","靈骨塔","香客大樓"],
+      equip:function(inputs){
+        if(inputs.hasPilgrimLodging) return {applies:true, detail:"有提供香客住宿者，不論面積一律列管。"};
+        return areaRule(500)(inputs);
+      },
+      fm:function(inputs){
+        const ok = inputs.area >= 500 && inputs.hasPilgrimLodging && inputs.capacity >= 100;
+        return {applies:ok, detail:"門檻為總樓地板面積500㎡以上「且」設有香客大樓或類似住宿空間「且」收容人數(含員工)100人以上，三者須同時符合。" + (ok?" 已達門檻。":" 尚未同時達到門檻。")};
+      },
+      flame:FLAME.none, extra:["hasPilgrimLodging"], needsEquip:["area"], needsFm:["area","capacity"] },
+  ]},
+  { group:"乙類（六）長照與身心障礙服務場所", items:[
+    { id:"b6_psychday", label:"日間型精神復健機構", cls:"乙類（六）", keywords:["精神復健","日間型精神","精神康復之家（日間）"], equip:alwaysEquip(), fm:alwaysFm("自114年3月7日生效。"), flame:FLAME.longcareH2 },
+    { id:"b6_other", label:"靶場／長照機構(社區式H-2)／兒少心理輔導或家庭諮詢／身心障礙就業服務／老人文康／其他老人及身障福利機構", cls:"乙類（六）", keywords:["靶場","射擊場","社區式長照","日間照顧","日照中心","團體家屋","小規模多機能","心理輔導","家庭諮詢","就業服務","文康","老人文康","長青","老人福利","身障就業"], equip:alwaysEquip(), fm:noneFm("此用途於防火管理門檻清單中未列（精神復健機構除外）。"), flame:FLAME.longcareH2 },
+  ]},
+  { group:"乙類（六之一）辦公室", items:[
+    { id:"b6a_office", label:"辦公室", cls:"乙類（六之一）", keywords:["辦公室","事務所","會計師事務所","律師事務所","公司行號","商務中心","共享辦公室","工作室（辦公）"], equip:areaRule(500), fm:areaStaffRule(500,30), flame:FLAME.none, needsEquip:["area"], needsFm:["area","staff"] },
+  ]},
+  { group:"乙類（六之二）診所", items:[
+    { id:"b6b_clinic", label:"診所", cls:"乙類（六之二）", keywords:["診所","牙醫","牙科","洗腎","透析","婦產科","婦產","門診","中醫","中醫診所","復健科","復健診所","眼科","耳鼻喉","小兒科","內科","外科","皮膚科","精神科診所","整型","醫美診所"],
+      tip:"一般門診診所對本類；醫院、護理之家、坐月子中心請改選甲類（六）。",
+      equip:function(inputs){
+        const ok = inputs.area>=500 || inputs.bedCount>=6 || inputs.clinicNonRefuge || inputs.useFloors>=2 || inputs.overnightStay;
+        const reasons = [];
+        if(inputs.area>=500) reasons.push("總樓地板面積達500㎡以上");
+        if(inputs.bedCount>=6) reasons.push("避難弱者病床數達6床以上");
+        if(inputs.clinicNonRefuge) reasons.push("婦產科／洗腎中心位於非避難層");
+        if(inputs.useFloors>=2) reasons.push("使用樓層達2層以上");
+        if(inputs.overnightStay) reasons.push("夜間非看診時段具病床供患者過夜");
+        return {applies:ok, detail:"符合以下任一條件即列管：面積500㎡以上／避難弱者病床6床以上／婦產科或洗腎中心位於非避難層／使用達2層樓以上／夜間非看診時段具病床過夜。" + (ok ? ("符合：" + reasons.join("、") + "。") : "目前輸入資料均未達列管條件。")};
+      },
+      fm: noneFm("診所於防火管理門檻清單中未列。"),
+      flame: FLAME.ward,
+      extra:["bedCount","clinicNonRefuge","useFloors","overnightStay"] },
+  ]},
+  { group:"乙類（七）集合住宅／寄宿場所", items:[
+    { id:"b7_apartment", label:"集合住宅（公寓大廈）", cls:"乙類（七）", keywords:["集合住宅","公寓","大廈","社區住宅","華廈","住宅大樓","社區管理委員會"],
+      equip:function(inputs){
+        const ok = inputs.floors>=6 || inputs.unitsPerFloor6;
+        return {applies:ok, detail:"門檻為建築物地面樓層達6層以上，或任一住宅單位（戶）之任一樓層分間達6個以上使用單元或設置10個以上床位之居室。" + (ok?" 已符合。":" 尚未符合。")};
+      },
+      fm: noneFm("純集合住宅於防火管理門檻清單中未列；惟11層以上且管理權分屬多人時，仍應併入共同防火管理範圍。"),
+      flame:FLAME.none, extra:["floors","unitsPerFloor6"] },
+    { id:"b7a_dorm", label:"寄宿舍", cls:"乙類（七之二）", keywords:["寄宿舍","宿舍","員工宿舍","學生宿舍","分租套房（集體）"],
+      equip:function(inputs){
+        const ok = inputs.area>=500 || (inputs.area>0 && inputs.area<500 && (inputs.capacity>=20 || inputs.roomCount>=16)) || inputs.unitsPerFloor6;
+        return {applies:ok, detail:"門檻為總樓地板面積500㎡以上；或未達500㎡但收容人數達20人以上或房間數達16間以上；或任一住宅單位（戶）之任一樓層分間達6個以上使用單元或10個以上床位。" + (ok?" 已符合。":" 尚未符合。")};
+      },
+      fm: capacityRule(100),
+      flame:FLAME.none, extra:["roomCount","unitsPerFloor6"], needsFm:["capacity"] },
+    { id:"b7b_psychlive", label:"住宿型精神復健機構", cls:"乙類（七之三）", keywords:["住宿型精神","精神復健住宿","精神康復之家（住宿）"], equip:alwaysEquip(), fm:alwaysFm("自114年3月7日生效。"), flame:FLAME.none },
+  ]},
+  { group:"乙類（八）體育休閒場所", items:[
+    { id:"b8_gym", label:"體育館", cls:"乙類（八）", keywords:["體育館","綜合體育館"], equip:alwaysEquip(), fm:noneFm("體育館於防火管理門檻清單中未列。"), flame:FLAME.none },
+    { id:"b8a_activity", label:"活動中心", cls:"乙類（八之一）", keywords:["活動中心","關懷據點","社區活動中心","里民活動中心"],
+      equip:function(inputs){
+        const ok = inputs.area>=500 || inputs.isCommunityCare;
+        return {applies:ok, detail:"門檻為總樓地板面積500㎡以上，或供社區照顧關懷據點等類似用途使用。" + (ok?" 已符合。":" 尚未符合。")};
+      },
+      fm: noneFm("活動中心於防火管理門檻清單中未列。"),
+      flame:FLAME.none, extra:["isCommunityCare"], needsEquip:["area"] },
+    { id:"b9_pool", label:"室內溜冰場／室內游泳池", cls:"乙類（九）", keywords:["溜冰","溜冰場","游泳池","泳池","室內泳池"], equip:alwaysEquip(), fm:noneFm("此用途於防火管理門檻清單中未列。"), flame:FLAME.none },
+  ]},
+  { group:"乙類（十）影視場所", items:[
+    { id:"b10_studio", label:"電影攝影場／電視播送場", cls:"乙類（十）", keywords:["攝影場","播送場","電視台","廣播電視","製片廠","攝影棚"], equip:alwaysEquip(), fm:noneFm("此用途於防火管理門檻清單中未列。"), flame:FLAME.all },
+  ]},
+  { group:"乙類（十一）倉儲場所", items:[
+    { id:"b11_warehouse", label:"倉庫／傢俱展示販售場", cls:"乙類（十一）", keywords:["倉庫","倉儲","物流倉","傢俱","家具","家具館","傢俱展示","家具賣場"], equip:areaRule(300), fm:areaStaffRule(500,30), flame:FLAME.none, needsEquip:["area"], needsFm:["area","staff"] },
+  ]},
+  { group:"乙類（十二）幼兒園", items:[
+    { id:"b12_kinder", label:"幼兒園（收托規模5人以上）", cls:"乙類（十二）", keywords:["幼兒園","幼稚園","幼園","幼托","學前教育"], equip:alwaysEquip("幼兒園一律列管；備註要求收托規模5人以上。"), fm:capacityRule(30), flame:FLAME.all, needsFm:["capacity"] },
+  ]},
+  { group:"丙類", items:[
+    { id:"c1_telecom", label:"電信機器室", cls:"丙類（一）", keywords:["電信","機房","機器室","電信機房"], equip:manualCheckRule("電信機器室應依設置標準第18條個別檢討是否應設滅火設備，無法以面積/人數單一門檻概括判斷，請現場確認。"), fm:noneFm(), flame:FLAME.none },
+    { id:"c2_garage", label:"汽車修護廠／飛機修理廠／飛機庫", cls:"丙類（二）", keywords:["修車","修車廠","汽車修護","保養廠","鈑金","飛機修理","飛機庫"], equip:manualCheckRule("此用途未於南投縣參考表列出概括門檻，請依個別消防安全設備設置條文現場確認。"), fm:noneFm(), flame:FLAME.none },
+    { id:"c3_parking", label:"室內停車場／建築物附設室內停車空間", cls:"丙類（三）", keywords:["停車場","停車空間","室內停車","立體停車場","機械停車"], equip:manualCheckRule("室內停車空間應依設置標準相關條文（如樓地板面積、樓層）個別檢討，請現場確認。"), fm:noneFm(), flame:FLAME.none },
+  ]},
+  { group:"丁類 工作場所", items:[
+    { id:"d1_highrisk", label:"高度／中度／低度危險工作場所（含觀光工廠、休閒農場自產農產品加工廠）", cls:"丁類（一～三）", keywords:["工廠","廠房","工作場所","觀光工廠","加工廠","食品加工","中央廚房","烘焙工廠","製造廠","休閒農場","農產品加工","釀造"],
+      tip:"以大量生產／廠房製程為主者對本類；一般店面型麵包／餐飲請改選甲類（五）。",
+      equip:function(inputs){
+        const min = inputs.isUrbanPlan ? 200 : 500;
+        const ok = inputs.area >= min;
+        return {applies:ok, detail:"都市計畫內廠房樓地板面積合計200㎡以上、都市計畫外500㎡以上即應列管（含休閒農場自產農產品加工廠同一門檻）。目前依" + (inputs.isUrbanPlan?"都市計畫內":"都市計畫外") + "門檻" + min + "㎡計算，您輸入面積" + inputs.area + "㎡，" + (ok?"已達門檻。":"尚未達門檻。")};
+      },
+      fm:function(inputs){
+        if(inputs.isTourismFactory) return {applies:true, detail:"屬觀光工廠，一律應設防火管理人。"};
+        return areaStaffRule(500,30)(inputs);
+      },
+      flame:FLAME.none, extra:["isUrbanPlan","isTourismFactory"], needsEquip:["area"], needsFm:["area","staff"] },
+    { id:"d4_gas", label:"加油站／加氣站", cls:"丁類（比照）", keywords:["加油站","加氣站","加油","加氣","中油","台塑加油站"], equip:alwaysEquip("加油站、加氣站屬供公眾使用建築物範圍，比照丁類危險工作場所列管並應辦理檢修申報。"), fm:areaStaffRule(500,30), flame:FLAME.none, needsFm:["area","staff"] },
+  ]},
+];
+
+const ALL_ITEMS = PLACE_TYPES.flatMap(g => g.items);
+const ALL_PLACE_OPTIONS = ALL_ITEMS.map(it => ({ id: it.id, label: it.label, cls: it.cls, keywords: it.keywords || [], tip: it.tip || "" }));
+
+function findUnlistedHints(text){
+  const t = (text || "").toLowerCase();
+  const hits = [];
+  UNLISTED_HINTS.forEach(u=>{
+    const matched = u.terms.filter(term => t.includes(term.toLowerCase()));
+    if(matched.length) hits.push({ matched, note: u.note });
+  });
+  return hits;
+}
+
+function findType(id){
+  return ALL_ITEMS.find(it => it.id === id) || null;
+}
+
+const sel = document.getElementById("useType");
+PLACE_TYPES.forEach(g=>{
+  const og = document.createElement("optgroup");
+  og.label = g.group;
+  g.items.forEach(it=>{
+    const opt = document.createElement("option");
+    opt.value = it.id;
+    opt.textContent = it.label;
+    og.appendChild(opt);
+  });
+  sel.appendChild(og);
+});
+
+const extraContainer = document.getElementById("extraFieldsContainer");
+Object.keys(EXTRA_FIELD_DEFS).forEach(key=>{
+  const def = EXTRA_FIELD_DEFS[key];
+  const row = document.createElement("div");
+  row.className = "extra-row";
+  row.id = "extraRow_" + key;
+  if(def.type === "checkbox"){
+    row.innerHTML = '<div class="check-row" style="border-top:none; padding:6px 0;"><input type="checkbox" id="extra_' + key + '"><span class="ctext">' + def.label + '</span></div>';
+  } else {
+    row.innerHTML = '<label class="field-label" style="margin-top:0;">' + def.label + '</label><input type="number" id="extra_' + key + '" min="0">';
+  }
+  extraContainer.appendChild(row);
+});
+
+function fieldNeeds(it){
+  const equip = (it && it.needsEquip) ? it.needsEquip : [];
+  const fm = (it && it.needsFm) ? it.needsFm : [];
+  return {
+    equip,
+    fm,
+    area: equip.includes("area") || fm.includes("area"),
+    capacity: equip.includes("capacity") || fm.includes("capacity"),
+    staff: equip.includes("staff") || fm.includes("staff"),
+  };
+}
+
+function updateScaleFields(){
+  const it = findType(sel.value);
+  const n = fieldNeeds(it);
+  const areaBox = document.getElementById("fieldArea");
+  const capBox = document.getElementById("fieldCapacity");
+  const staffBox = document.getElementById("fieldStaff");
+  const scaleHint = document.getElementById("scaleHint");
+  const capHint = document.getElementById("capacityHint");
+  const staffHint = document.getElementById("staffHint");
+
+  // 面積一律顯示作參考；收容／員工僅在該用途門檻用到時顯示
+  areaBox.style.display = "block";
+  capBox.style.display = n.capacity ? "block" : "none";
+  staffBox.style.display = n.staff ? "block" : "none";
+
+  if(!n.capacity) document.getElementById("capacity").value = "";
+  if(!n.staff) document.getElementById("staff").value = "";
+
+  const bits = [];
+  if(n.equip.length) bits.push("列管判斷需要：" + n.equip.map(x=>({area:"面積",capacity:"收容人數",staff:"員工"}[x]||x)).join("、") + "。");
+  if(n.fm.length) bits.push("防火管理判斷需要：" + n.fm.map(x=>({area:"面積",capacity:"收容人數",staff:"員工"}[x]||x)).join("、") + "。");
+  if(!n.equip.length && !n.fm.length) bits.push("本用途列管／防火管理原則不依收容人數或員工數判斷；面積可作參考，非必要可不填。");
+  else if(!n.capacity && !n.staff) bits.push("本用途通常不需填收容人數或員工數。");
+  scaleHint.textContent = bits.join(" ");
+
+  if(n.capacity){
+    const onlyFm = !n.equip.includes("capacity") && n.fm.includes("capacity");
+    capHint.textContent = onlyFm ? "用於防火管理門檻；未填仍可先判斷是否列管，但防火管理會標示無法判定。" : "本用途列管或防火管理門檻會用到收容人數。";
+  }
+  if(n.staff){
+    const onlyFm = !n.equip.includes("staff") && n.fm.includes("staff");
+    staffHint.textContent = onlyFm ? "用於防火管理門檻；未填仍可先判斷是否列管，但防火管理會標示無法判定。" : "本用途列管或防火管理門檻會用到員工人數。";
+  }
+}
+
+function updateHint(){
+  const it = findType(sel.value);
+  document.getElementById("useTypeHint").textContent = it ? ("分類：" + it.cls) : "";
+
+  const extra = (it && it.extra) ? it.extra : [];
+  const extraBox = document.getElementById("extraBox");
+  Object.keys(EXTRA_FIELD_DEFS).forEach(key=>{
+    const row = document.getElementById("extraRow_" + key);
+    row.classList.toggle("show", extra.includes(key));
+  });
+  extraBox.classList.toggle("show", extra.length > 0);
+  updateScaleFields();
+}
+sel.addEventListener("change", updateHint);
+sel.selectedIndex = 0;
+updateHint();
+
+function syncComplexSub(){
+  const isComplex = document.getElementById("buildingComplex").checked;
+  document.getElementById("complexSub").style.display = isComplex ? "block" : "none";
+  if(!isComplex) document.getElementById("complexHasA").checked = false;
+}
+document.getElementById("buildingSingle").addEventListener("change", syncComplexSub);
+document.getElementById("buildingComplex").addEventListener("change", syncComplexSub);
+
+/* ---- 用途快速檢索 ---- */
+const useSearch = document.getElementById("useSearch");
+const useSearchResults = document.getElementById("useSearchResults");
+
+function scoreSearchHit(query, o){
+  const hay = (o.label + " " + o.cls + " " + (o.keywords||[]).join(" ")).toLowerCase();
+  if(!(hay.includes(query) || query.split(/\s+/).every(t => t && hay.includes(t)))) return 0;
+  let score = 1;
+  (o.keywords||[]).forEach(kw=>{
+    const k = kw.toLowerCase();
+    if(query === k) score += 8;
+    else if(query.includes(k) || k.includes(query)) score += Math.max(2, Math.min(5, k.length));
+  });
+  if(o.label.toLowerCase().includes(query)) score += 3;
+  return score;
+}
+
+function renderSearchResults(q){
+  const raw = (q || "").trim();
+  const query = raw.toLowerCase();
+  if(!query){
+    useSearchResults.classList.remove("show");
+    useSearchResults.innerHTML = "";
+    return;
+  }
+
+  const unlisted = findUnlistedHints(raw);
+  const ranked = ALL_PLACE_OPTIONS.map(o => ({ o, score: scoreSearchHit(query, o) }))
+    .filter(x => x.score > 0)
+    .sort((a,b)=> b.score - a.score)
+    .slice(0, 3)
+    .map(x => x.o);
+
+  let html = "";
+  if(unlisted.length){
+    html += unlisted.map(u =>
+      '<div class="search-empty" style="color:var(--amber);">「' + u.matched.join("、") + '」：' + u.note + '</div>'
+    ).join("");
+  }
+
+  if(!ranked.length){
+    html += unlisted.length
+      ? '<div class="search-empty">未對到參考表列管用途；請依上方說明現場確認，或改用其他關鍵字／下拉選單。</div>'
+      : '<div class="search-empty">找不到符合的場所，請改關鍵字或改用下方下拉選單。</div>';
+    useSearchResults.innerHTML = html;
+    useSearchResults.classList.add("show");
+    return;
+  }
+
+  html += ranked.map(h =>
+    '<button type="button" class="search-item" data-id="' + h.id + '">' +
+      '<span class="slabel">' + h.label + '</span>' +
+      '<span class="scls">' + h.cls + (h.tip ? ("　｜　" + h.tip) : "") + '</span>' +
+    '</button>'
+  ).join("");
+  useSearchResults.innerHTML = html;
+  useSearchResults.classList.add("show");
+  useSearchResults.querySelectorAll(".search-item").forEach(btn=>{
+    btn.addEventListener("click", function(){
+      sel.value = this.getAttribute("data-id");
+      updateHint();
+      useSearch.value = findType(sel.value).label;
+      useSearchResults.classList.remove("show");
+    });
+  });
+}
+useSearch.addEventListener("input", function(){ renderSearchResults(this.value); });
+useSearch.addEventListener("focus", function(){ if(this.value.trim()) renderSearchResults(this.value); });
+document.addEventListener("click", function(e){
+  if(!e.target.closest(".search-wrap")) useSearchResults.classList.remove("show");
+});
+
+function getExemptReason(){
+  const outdoor = document.getElementById("exemptOutdoor").checked;
+  const residence = document.getElementById("exemptResidence").checked;
+  const homeOffice = document.getElementById("exemptHomeOffice").checked;
+  const familyCare = document.getElementById("exemptFamilyCare").checked;
+  if(outdoor) return {
+    tag: "純露天構造物（實務篩選）",
+    plain: "現場沒有頂蓋、樑柱或牆壁這些建築物構造，法規規定要列管的場所必須是有蓋、有結構的建築物或構造物，露天的部分不算，所以不用列管、也不用辦理消防安全設備檢修申報。"
+  };
+  if(residence) return {
+    tag: "純自用獨立住宅（實務篩選）",
+    plain: "這裡是自己家住的地方，沒有對外營業，不屬於列管參考表列出的任何一種營業或公眾使用場所類別，所以不用列管。"
+  };
+  if(homeOffice) return {
+    tag: "在宅工作／接案（實務篩選）",
+    plain: "雖然在家裡工作或接案，但沒有獨立對外營業的空間、沒有顧客上門、也沒有掛招牌，性質上還是住宅使用，還沒有變更成商業用途，所以目前不用列管。提醒業主：如果之後開始有顧客上門或掛出招牌，就要重新評估是否需要列管。"
+  };
+  if(familyCare) return {
+    tag: "家庭托顧服務（4人以下）",
+    plain: "服務對象在4人以下，屬於居家式的小規模照顧服務，依規定由分隊列冊管理即可，不算正式的消防安全設備列管對象，所以不用辦理列管申報。"
+  };
+  return null;
+}
+
+function runExemptCheck(){
+  const reason = getExemptReason();
+  const statusEl = document.getElementById("exemptStatus");
+  if(!reason){
+    statusEl.textContent = "目前未勾選任何免列管情形，請繼續下方步驟填寫一般判斷流程。";
+    statusEl.classList.add("show");
+    return;
+  }
+  statusEl.textContent = "";
+  statusEl.classList.remove("show");
+  renderExemptResult(reason);
+}
+
+function renderExemptResult(reason){
+  document.getElementById("stampText").textContent = "不需列管";
+  document.getElementById("rManaged").innerHTML =
+    "<span class='badge no'>不需列管</span>" +
+    "<div class='muted' style='margin-top:8px;'><b>判定依據：" + reason.tag + "</b><br>" + reason.plain + "</div>";
+  document.getElementById("rClass").innerHTML = "<span class='muted'>不適用南投縣消防安全列管對象範圍參考表</span>";
+  document.getElementById("rFireMgmt").innerHTML = "<span class='muted'>無需設置防火管理人</span>";
+  document.getElementById("rFlame").innerHTML = "<span class='muted'>免列管情形下，防焰制度原則不適用。</span>";
+  document.getElementById("rCoManagedBlock").style.display = "none";
+  document.getElementById("resultEmpty").style.display = "none";
+  document.getElementById("resultCard").style.display = "block";
+  showStampModal("no", "不需列管", "判定依據：" + reason.tag + "。" + reason.plain);
+}
+
+function showStampModal(kind, badgeText, shortText){
+  const overlay = document.getElementById("stampOverlay");
+  const box = document.getElementById("stampBox");
+  document.getElementById("stampBoxBadge").textContent = badgeText;
+  document.getElementById("stampBoxText").textContent = shortText;
+  box.classList.remove("yes","no","warn");
+  box.classList.add(kind);
+  overlay.classList.add("show");
+  box.classList.remove("animate");
+  void box.offsetWidth;
+  box.classList.add("animate");
+}
+
+function closeStampModal(){
+  document.getElementById("stampOverlay").classList.remove("show");
+  const target = document.getElementById("resultCard");
+  if(target) target.scrollIntoView({ behavior:"smooth", block:"start" });
+}
+
+/* ---- 本機關鍵字解析 ---- */
+function extractNumbers(text){
+  const result = { area:null, capacity:null, staff:null };
+  const ping = text.match(/(\d+(?:\.\d+)?)\s*坪/);
+  if(ping) result.area = Math.round(parseFloat(ping[1]) * 3.3058);
+  const sqm = text.match(/(\d+(?:\.\d+)?)\s*(?:平方公尺|㎡|m2|M2|平方)/);
+  if(sqm && result.area === null) result.area = Math.round(parseFloat(sqm[1]));
+
+  const staffPatterns = [
+    /(?:員工|工讀生|店員|人員|職員|工作人員)\s*(\d+)\s*人/,
+    /(\d+)\s*(?:位|名)?\s*(?:員工|工讀生|店員|人員)/,
+    /請\s*(\d+)\s*(?:個|位|名)?\s*(?:工讀生|員工|店員)/
+  ];
+  for(const re of staffPatterns){
+    const m = text.match(re);
+    if(m){ result.staff = parseInt(m[1],10); break; }
+  }
+
+  const capPatterns = [
+    /收容\s*(\d+)\s*人/,
+    /(?:可容納|容納|約)\s*(\d+)\s*人/,
+    /(\d+)\s*人(?:以上|左右|上下)?(?:收容|容納)?/
+  ];
+  for(const re of capPatterns){
+    const m = text.match(re);
+    if(m){
+      const n = parseInt(m[1],10);
+      if(result.staff === null || n !== result.staff){ result.capacity = n; break; }
+    }
+  }
+  return result;
+}
+
+function scorePlace(text, item){
+  const t = text.toLowerCase();
+  let score = 0;
+  const reasons = [];
+  (item.keywords || []).forEach(kw=>{
+    if(t.includes(kw.toLowerCase())){
+      score += Math.max(2, Math.min(6, kw.length));
+      reasons.push(kw);
+    }
+  });
+  // light boost for exact-ish label fragments
+  item.label.split(/[／/、（）()]/).forEach(part=>{
+    const p = part.trim();
+    if(p.length >= 2 && t.includes(p.toLowerCase())){
+      score += 1;
+      if(!reasons.includes(p)) reasons.push(p);
+    }
+  });
+  return { score, reasons: reasons.slice(0,4) };
+}
+
+function runLocalExtract(){
+  const text = document.getElementById("reportText").value.trim();
+  const statusEl = document.getElementById("aiStatus");
+  const summaryEl = document.getElementById("aiSummary");
+  const missingEl = document.getElementById("aiMissing");
+  const candEl = document.getElementById("candidateList");
+
+  summaryEl.classList.remove("show");
+  missingEl.classList.remove("show");
+  candEl.classList.remove("show");
+  candEl.innerHTML = "";
+
+  if(!text){
+    statusEl.textContent = "請先輸入負責人轉述的內容。";
+    statusEl.classList.add("show");
+    return;
+  }
+
+  const nums = extractNumbers(text);
+  const isComplex = /樓上|樓下|同棟|複合|店面.*住|住.*店面|一樓.*二樓|1樓.*2樓/.test(text);
+  const is11F = /11\s*層|十一層|高層/.test(text);
+  const isUnderground = /地下街|地下建築物|地下道商場/.test(text);
+
+  if(isComplex){
+    document.getElementById("buildingComplex").checked = true;
+    syncComplexSub();
+  }
+  if(isUnderground) document.getElementById("isUnderground").checked = true;
+  if(is11F) document.getElementById("is11F").checked = true;
+
+  const ranked = ALL_ITEMS.map(it=>{
+    const s = scorePlace(text, it);
+    return { it, score:s.score, reasons:s.reasons };
+  }).filter(x => x.score > 0).sort((a,b)=> b.score - a.score);
+
+  // de-prioritize overly broad "車站" if rail-specific words present
+  const hasRail = /捷運|台鐵|臺鐵|高鐵/.test(text);
+  const filtered = ranked.filter(x=>{
+    if(hasRail && x.it.id === "b1a_station_gen") return false;
+    return true;
+  }).slice(0,3);
+
+  const unlisted = findUnlistedHints(text);
+
+  // 先選定用途並更新欄位顯隱，再帶入數字，避免被隱藏欄位清空
+  if(filtered.length){
+    sel.value = filtered[0].it.id;
+    updateHint();
+    useSearch.value = filtered[0].it.label;
+  }
+  if(nums.area !== null) document.getElementById("area").value = nums.area;
+  const n0 = filtered.length ? fieldNeeds(filtered[0].it) : {capacity:true, staff:true};
+  if(nums.capacity !== null && n0.capacity) document.getElementById("capacity").value = nums.capacity;
+  if(nums.staff !== null && n0.staff) document.getElementById("staff").value = nums.staff;
+
+  summaryEl.innerHTML =
+    '<div class="arow"><span class="ak">面積</span><span class="av">' + (nums.area != null ? nums.area + " ㎡" : "未提及") + '</span></div>' +
+    '<div class="arow"><span class="ak">收容人數</span><span class="av">' + (nums.capacity != null ? nums.capacity + " 人" : "未提及") + (filtered.length && !fieldNeeds(filtered[0].it).capacity && nums.capacity == null ? "（本用途通常不需）" : "") + '</span></div>' +
+    '<div class="arow"><span class="ak">員工人數</span><span class="av">' + (nums.staff != null ? nums.staff + " 人" : "未提及") + (filtered.length && !fieldNeeds(filtered[0].it).staff && nums.staff == null ? "（本用途通常不需）" : "") + '</span></div>' +
+    '<div class="arow"><span class="ak">建築物線索</span><span class="av">' +
+      (isComplex ? "可能複合用途　" : "") + (isUnderground ? "可能地下建築物　" : "") + (is11F ? "可能11層以上" : "") +
+      ((!isComplex && !isUnderground && !is11F) ? "未明顯提及" : "") +
+    '</span></div>';
+  summaryEl.classList.add("show");
+
+  const missing = [];
+  const needArea = filtered.some(x => fieldNeeds(x.it).area);
+  const needCap = filtered.some(x => fieldNeeds(x.it).capacity);
+  const needStaff = filtered.some(x => fieldNeeds(x.it).staff);
+  if(filtered.length){
+    if(needArea && nums.area === null) missing.push("樓地板面積（㎡或坪）");
+    if(needCap && nums.capacity === null) missing.push("收容人數（含員工）— 因候選用途之防火管理／列管門檻可能用到");
+    if(needStaff && nums.staff === null) missing.push("員工人數 — 因候選用途之防火管理門檻可能用到");
+  }
+  if(!isComplex && !/獨立|整棟都是|單一用途/.test(text)) missing.push("是否為複合用途建築物");
+
+  if(filtered.length){
+    candEl.innerHTML = '<div class="hint" style="margin:0 0 4px;">以下為依業者說法初步彙整的可能場所（最多3項，點選可帶入用途）：</div>' +
+      filtered.map(x =>
+        '<button type="button" class="candidate-item" data-id="' + x.it.id + '">' +
+          '<div class="cname">' + x.it.label + '</div>' +
+          '<div class="cmeta">' + x.it.cls +
+            (x.reasons.length ? ("　｜　比對到：" + x.reasons.join("、")) : "") +
+            (x.it.tip ? ("<br>" + x.it.tip) : "") +
+          '</div>' +
+        '</button>'
+      ).join("");
+    candEl.classList.add("show");
+    candEl.querySelectorAll(".candidate-item").forEach(btn=>{
+      btn.addEventListener("click", function(){
+        const id = this.getAttribute("data-id");
+        sel.value = id;
+        updateHint();
+        useSearch.value = findType(id).label;
+        const n = fieldNeeds(findType(id));
+        if(nums.area !== null) document.getElementById("area").value = nums.area;
+        if(nums.capacity !== null && n.capacity) document.getElementById("capacity").value = nums.capacity;
+        if(nums.staff !== null && n.staff) document.getElementById("staff").value = nums.staff;
+        statusEl.textContent = "已帶入用途：「" + findType(id).label + "」。請核對補充欄位後再產生檢核結果。";
+        statusEl.classList.add("show");
+      });
+    });
+    statusEl.textContent = "已解析完成。已預選最可能用途，並列出其他候選供您改選；請核對後再產生結果。";
+  } else if(unlisted.length){
+    statusEl.textContent = "文字中出現參考表可能未列的業種說法，請看下方說明並現場確認；數字欄位若有辨識到已先帶入。";
+  } else {
+    statusEl.textContent = "未能從文字對到明確用途關鍵字，請改用搜尋或下拉選單手動選擇。數字欄位若有辨識到已先帶入。";
+  }
+  statusEl.classList.add("show");
+
+  const missParts = [];
+  if(unlisted.length){
+    missParts.push("<b>參考表可能未列之業種（請現場確認，不自動套入用途）：</b><br>" +
+      unlisted.map(u => "・「" + u.matched.join("、") + "」：" + u.note).join("<br>"));
+  }
+  if(missing.length){
+    missParts.push("<b>還缺少或不明確的資訊，建議向負責人確認：</b><br>" + missing.map(m => "・" + m).join("<br>"));
+  }
+  if(missParts.length){
+    missingEl.innerHTML = missParts.join("<br><br>");
+    missingEl.classList.add("show");
+  }
+}
+
+function gatherInputs(){
+  const areaEl = document.getElementById("area");
+  const capacityEl = document.getElementById("capacity");
+  const staffEl = document.getElementById("staff");
+  const inputs = {
+    area: areaEl.value === "" ? null : (parseFloat(areaEl.value) || 0),
+    capacity: capacityEl.value === "" ? null : (parseFloat(capacityEl.value) || 0),
+    staff: staffEl.value === "" ? null : (parseFloat(staffEl.value) || 0),
+    areaRaw: areaEl.value,
+    capacityRaw: capacityEl.value,
+    staffRaw: staffEl.value,
+  };
+  Object.keys(EXTRA_FIELD_DEFS).forEach(key=>{
+    const def = EXTRA_FIELD_DEFS[key];
+    const el = document.getElementById("extra_" + key);
+    if(def.type === "checkbox"){
+      inputs[key] = el.checked;
+    } else {
+      inputs[key] = el.value === "" ? null : (parseFloat(el.value) || 0);
+      inputs[key + "Raw"] = el.value;
+    }
+  });
+  return inputs;
+}
+
+function validateRequired(it, inputs, isUnderground, isComplex, complexHasA){
+  // underground always managed; complex+hasA is field review — skip hard number gates
+  if(isUnderground) return [];
+  if(isComplex && complexHasA) return [];
+
+  const equipNeeds = (it.needsEquip) ? it.needsEquip : [];
+  const missing = [];
+  // 僅「列管判斷」必要欄位才硬擋；防火管理用人數缺漏改軟提示（見 evaluateFm）
+  const skipArea = (it.id === "b5_temple" && inputs.hasPilgrimLodging) || (it.id === "b1a_station_gen" && inputs.taiwanRailwayCert);
+  if(equipNeeds.includes("area") && inputs.areaRaw === "" && !skipArea) missing.push("場所總樓地板面積（列管判斷需要）");
+  if(equipNeeds.includes("capacity") && inputs.capacityRaw === "") missing.push("收容人數（列管判斷需要）");
+  if(equipNeeds.includes("staff") && inputs.staffRaw === "") missing.push("員工人數（列管判斷需要）");
+
+  if(it.id === "b7_apartment" && inputs.floorsRaw === "" && !inputs.unitsPerFloor6){
+    missing.push("建築物地面樓層數（或勾選分間／床位條件）");
+  }
+  if(it.id === "b6b_clinic"){
+    const any =
+      inputs.areaRaw !== "" ||
+      inputs.bedCountRaw !== "" ||
+      inputs.useFloorsRaw !== "" ||
+      inputs.clinicNonRefuge ||
+      inputs.overnightStay;
+    if(!any) missing.push("診所列管條件相關資料（面積／病床／樓層／非避難層／過夜等至少一項）");
+  }
+  // 寄宿舍列管可能用到面積／人數／房間／分間：至少提供一條路徑
+  if(it.id === "b7a_dorm"){
+    const any = inputs.areaRaw !== "" || inputs.capacityRaw !== "" || inputs.roomCountRaw !== "" || inputs.unitsPerFloor6;
+    if(!any) missing.push("寄宿舍列管條件相關資料（面積／收容人數／房間數／分間條件等至少一項）");
+  }
+  return missing;
+}
+
+function evaluateFm(it, inputs, inputsRaw){
+  const fmNeeds = (it.needsFm) ? it.needsFm : [];
+  const softMissing = [];
+  if(fmNeeds.includes("area") && inputsRaw.areaRaw === "") softMissing.push("面積");
+  if(fmNeeds.includes("capacity") && inputsRaw.capacityRaw === "") softMissing.push("收容人數");
+  if(fmNeeds.includes("staff") && inputsRaw.staffRaw === "") softMissing.push("員工人數");
+
+  // 寺廟防火管理三者同時：缺香客住宿勾選或人數時，若面積已填仍可算；缺關鍵人數則軟提示
+  if(softMissing.length){
+    return {
+      applies: null,
+      detail: "此用途防火管理門檻需要「" + softMissing.join("、") + "」，目前未提供，故無法判斷是否達防火管理門檻。列管（檢修申報）仍可依其他資料先行判斷；補齊人數／面積後可再重算。"
+    };
+  }
+  return it.fm(inputs);
+}
+
+function normalizeInputsForRules(inputs){
+  // rules expect numbers; empty already validated
+  return {
+    ...inputs,
+    area: inputs.area == null ? 0 : inputs.area,
+    capacity: inputs.capacity == null ? 0 : inputs.capacity,
+    staff: inputs.staff == null ? 0 : inputs.staff,
+    bedCount: inputs.bedCount == null ? 0 : inputs.bedCount,
+    useFloors: inputs.useFloors == null ? 0 : inputs.useFloors,
+    floors: inputs.floors == null ? 0 : inputs.floors,
+    roomCount: inputs.roomCount == null ? 0 : inputs.roomCount,
+  };
+}
+
+function runCheck(){
+  const exemptReason = getExemptReason();
+  if(exemptReason){
+    renderExemptResult(exemptReason);
+    return;
+  }
+
+  const it = findType(sel.value);
+  const isComplex = document.getElementById("buildingComplex").checked;
+  const complexHasA = document.getElementById("complexHasA").checked;
+  const isUnderground = document.getElementById("isUnderground").checked;
+  const is11F = document.getElementById("is11F").checked;
+  const inputsRaw = gatherInputs();
+  const validationBox = document.getElementById("validationBox");
+
+  const missing = validateRequired(it, inputsRaw, isUnderground, isComplex, complexHasA);
+  if(missing.length){
+    validationBox.innerHTML = "請先補齊以下資料再判斷，避免空白被當成 0 而誤判：<br>・" + missing.join("<br>・");
+    validationBox.classList.add("show");
+    return;
+  }
+  validationBox.classList.remove("show");
+
+  const inputs = normalizeInputsForRules(inputsRaw);
+
+  let classText;
+  if(isUnderground){
+    classText = "戊類（地下建築物，整棟一律列管、整棟辦理檢修申報）";
+  } else if(isComplex && complexHasA){
+    classText = "戊類（複合用途建築物，含甲類用途）　｜　個別場所本身用途對照：" + it.cls;
+  } else if(isComplex){
+    classText = "戊類（複合用途建築物，未含甲類用途）　｜　個別場所本身用途對照：" + it.cls;
+  } else {
+    classText = it.cls + "　｜　單一用途獨立建築物";
+  }
+  document.getElementById("rClass").innerHTML = "<b>" + classText + "</b>";
+
+  let equipResult;
+  if(isUnderground){
+    equipResult = {applies:true, detail:"地下建築物依規定一律列管，應辦理消防安全設備檢修申報。"};
+  } else if(isComplex && complexHasA){
+    equipResult = {applies:null, detail:"複合用途建築物中有供甲類用途者，依參考表應「依現場實際狀況檢討要求」。請以整棟現場勘查確認是否列管及檢修申報範圍，本工具不直接判定應列管。個別用途對照：" + it.cls + "。"};
+  } else if(isComplex && !complexHasA){
+    equipResult = it.equip(inputs);
+    equipResult = {
+      applies: equipResult.applies,
+      detail: "未含甲類之複合用途建築物，先依個別用途門檻判斷：" + equipResult.detail + " 整棟是否併辦檢修申報，請另依現場狀況確認。"
+    };
+  } else {
+    equipResult = it.equip(inputs);
+  }
+
+  if(equipResult.applies === null){
+    document.getElementById("rManaged").innerHTML =
+      "<span class='badge warn'>需現場個別確認</span>" +
+      "<div class='muted' style='margin-top:8px;'>" + equipResult.detail + "</div>";
+  } else if(equipResult.applies){
+    document.getElementById("rManaged").innerHTML =
+      "<span class='badge yes'>應列管，需辦理消防安全設備檢修申報</span>" +
+      "<div class='muted' style='margin-top:8px;'>" + equipResult.detail + "</div>";
+  } else {
+    document.getElementById("rManaged").innerHTML =
+      "<span class='badge no'>目前規模未達列管門檻</span>" +
+      "<div class='muted' style='margin-top:8px;'>" + equipResult.detail + " 若之後規模擴大，請重新評估。</div>";
+  }
+
+  let fmResult;
+  if(isUnderground){
+    fmResult = {applies:true, detail:"地下建築物依規定一律應設置防火管理人。"};
+  } else if(isComplex && complexHasA){
+    fmResult = {applies:null, detail:"含甲類之複合用途建築物，防火管理範圍應併同整棟現場檢討。個別用途原始門檻請另依該用途人數／面積條件確認。"};
+  } else if(isComplex && !complexHasA){
+    fmResult = evaluateFm(it, inputs, inputsRaw);
+    if(fmResult.applies !== null){
+      fmResult = {
+        applies: fmResult.applies,
+        detail: "未含甲類之複合用途：先依個別用途防火管理門檻判斷。" + fmResult.detail + " 整棟共同消防防護計畫是否適用，請現場確認。"
+      };
+    }
+  } else {
+    fmResult = evaluateFm(it, inputs, inputsRaw);
+  }
+
+  if(fmResult.applies === null){
+    document.getElementById("rFireMgmt").innerHTML =
+      "<span class='badge warn'>需現場個別確認</span>" +
+      "<div class='muted' style='margin-top:8px;'>" + fmResult.detail + "</div>";
+  } else {
+    document.getElementById("rFireMgmt").innerHTML =
+      (fmResult.applies
+        ? "<span class='badge yes'>需遴用防火管理人並訂定消防防護計畫</span>"
+        : "<span class='badge no'>依現有資料尚未達強制列管門檻</span>") +
+      "<div class='muted' style='margin-top:8px;'>" + fmResult.detail + "</div>";
+  }
+
+  document.getElementById("rFlame").innerHTML =
+    "<span class='muted'>" + (it.flame || FLAME.none) + "</span>";
+
+  const coBlock = document.getElementById("rCoManagedBlock");
+  if(isUnderground || is11F){
+    coBlock.style.display = "block";
+    document.getElementById("rCoManaged").innerHTML =
+      "<span class='badge warn'>管理權分屬多人時需協議遴用共同防火管理人</span>" +
+      "<div class='muted' style='margin-top:8px;'>依消防法第13條第5項，非屬集合住宅之地面樓層達11層以上建築物，或地下建築物，於管理權分屬多人時，各管理權人應協議遴用共同防火管理人，訂定共同消防防護計畫，並辦理整體避難訓練。若管理權未分屬多人，則不當然適用。</div>";
+  } else {
+    coBlock.style.display = "none";
+  }
+
+  let stampLabel;
+  if(equipResult.applies === null) stampLabel = "需現場個別確認";
+  else if(equipResult.applies) stampLabel = (fmResult.applies === true) ? "應列管・需防火管理" : (fmResult.applies === null ? "應列管・防火管理待確認" : "應列管・檢修申報為主");
+  else stampLabel = "初步未達列管門檻";
+  document.getElementById("stampText").textContent = stampLabel;
+
+  document.getElementById("resultEmpty").style.display = "none";
+  document.getElementById("resultCard").style.display = "block";
+
+  let modalKind, modalBadge, modalText;
+  if(equipResult.applies === null){
+    modalKind = "warn";
+    modalBadge = "需現場個別確認";
+    modalText = equipResult.detail;
+  } else if(equipResult.applies){
+    modalBadge = (fmResult.applies === true) ? "應列管・需防火管理" : (fmResult.applies === null ? "應列管・防火管理待確認" : "應列管・檢修申報為主");
+    modalKind = (fmResult.applies === null) ? "warn" : "yes";
+    modalText = classText + "，需辦理消防安全設備檢修申報。" + (fmResult.applies === true ? " 另需設置防火管理人。" : (fmResult.applies === null ? " 防火管理因人數／面積未齊，暫無法判定。" : " 目前未達防火管理門檻，暫免設防火管理人。"));
+  } else {
+    modalKind = "no";
+    modalBadge = "初步未達列管門檻";
+    modalText = equipResult.detail + " 若之後規模擴大，請重新評估。";
+  }
+  showStampModal(modalKind, modalBadge, modalText);
+}
+</script>
+</body>
+</html>
